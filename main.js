@@ -3,7 +3,7 @@ const suds = require('./src/javascripts/suds.js');
 const ccs = require('./src/javascripts/ccs.js');
 const cache = require('./src/javascripts/cache.js');
 const stream = require('./src/javascripts/stream.js');
-const defaultConfig = require('./config.json');
+const defaultConfig = require('./config.js');
 const oCommentUtilities = require('o-comment-utilities');
 
 
