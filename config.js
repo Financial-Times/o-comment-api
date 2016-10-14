@@ -5,7 +5,7 @@ module.exports = {
 			livefyre: {
 				init: "/v1/livefyre/init",
 				commentCount: "/v1/livefyre/commentcount",
-				commentCounds: "/v1/livefyre/commentcounts"
+				commentCounts: "/v1/livefyre/commentcounts"
 			},
 			user: {
 				updateUser: "/v1/user/updateuser",
