@@ -4,7 +4,8 @@ module.exports = {
 		endpoints: {
 			livefyre: {
 				init: "/v1/livefyre/init",
-				commentCount: "/v1/livefyre/commentcount"
+				commentCount: "/v1/livefyre/commentcount",
+				commentCounds: "/v1/livefyre/commentcounts"
 			},
 			user: {
 				updateUser: "/v1/user/updateuser",

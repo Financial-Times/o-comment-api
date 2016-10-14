@@ -162,6 +162,31 @@ livefyre.getCommentCount = function (articleId, callback) {
 	);
 };
 
+livefyre.getCommentCounts = function (articleIds, callback) {
+	if (typeof callback !== 'function') {
+		throw "Callbacks not provided";
+	}
+
+	if (!articleIds) {
+		callback(new Error("Article IDs are not provided"));
+	}
+
+	if (!articleIds.length) {
+		callback();
+	}
+
+
+	oCommentUtilities.jsonp(
+		{
+			url: envConfig.get().suds.baseUrl + envConfig.get().suds.endpoints.livefyre.commentCounts,
+			data: {
+				articleIds: articleIds
+			}
+		},
+		callback
+	);
+};
+
 
 /**
  * User related SUDS endpoints.
