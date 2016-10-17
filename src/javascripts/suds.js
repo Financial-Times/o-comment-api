@@ -199,7 +199,7 @@ livefyre.getCommentCounts = function (articleIds, callback) {
 				{
 					url: url,
 					data: {
-						articleIds: bundle
+						articleIds: bundle.articles
 					}
 				},
 				done
@@ -213,7 +213,11 @@ livefyre.getCommentCounts = function (articleIds, callback) {
 			return;
 		}
 
-		callback(null, oCommentUtilities.merge(results));
+		if (results && results.length) {
+			callback(null, oCommentUtilities.merge(results)[0]);
+		} else {
+			callback(null, {});
+		}
 	});
 };
 
