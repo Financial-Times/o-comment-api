@@ -204,7 +204,7 @@ livefyre.getCommentCounts = function (articleIds, callback) {
 				},
 				done
 			);
-		})
+		});
 	});
 
 	async.parallel(getArticleFunctions, (err, results) => {
