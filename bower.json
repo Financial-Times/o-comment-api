@@ -2,7 +2,8 @@
   "name": "o-comment-api",
   "main": "main.js",
   "dependencies": {
-    "o-comment-utilities": "^2.2.0"
+    "o-comment-utilities": "^2.2.0",
+    "async": "~2.1.2"
   },
   "ignore": [
     "node_modules",

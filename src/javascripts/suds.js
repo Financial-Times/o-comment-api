@@ -2,7 +2,7 @@ const cache = require('./cache.js');
 const utils = require('./utils.js');
 const envConfig = require('./config.js');
 const oCommentUtilities = require('o-comment-utilities');
-
+const async = require('async');
 
 /**
  * Livefyre related SUDS endpoints.
@@ -175,16 +175,46 @@ livefyre.getCommentCounts = function (articleIds, callback) {
 		callback();
 	}
 
+	const url = envConfig.get().suds.baseUrl + envConfig.get().suds.endpoints.livefyre.commentCounts;
+	const baseLength = url.length;
 
-	oCommentUtilities.jsonp(
-		{
-			url: envConfig.get().suds.baseUrl + envConfig.get().suds.endpoints.livefyre.commentCounts,
-			data: {
-				articleIds: articleIds
-			}
-		},
-		callback
-	);
+	const articleIdBundles = [];
+	articleIds.forEach(articleId => {
+		if (!articleIdBundles.length || articleIdBundles[articleIdBundles.length - 1].size >= 3000) {
+			articleIdBundles.push({
+				size: baseLength,
+				articles: []
+			});
+		}
+
+		articleIdBundles[articleIdBundles.length - 1].articles.push(articleId);
+		articleIdBundles[articleIdBundles.length - 1].size += articleId.toString().length;
+	});
+
+	const getArticleFunctions = [];
+
+	articleIdBundles.forEach(bundle => {
+		getArticleFunctions.push(function (done) {
+			oCommentUtilities.jsonp(
+				{
+					url: url,
+					data: {
+						articleIds: bundle
+					}
+				},
+				done
+			);
+		})
+	});
+
+	async.parallel(getArticleFunctions, (err, results) => {
+		if (err) {
+			callback(err);
+			return;
+		}
+
+		callback(null, oCommentUtilities.merge(results));
+	});
 };
 
 
