@@ -180,7 +180,7 @@ livefyre.getCommentCounts = function (articleIds, callback) {
 
 	const articleIdBundles = [];
 	articleIds.forEach(articleId => {
-		if (!articleIdBundles.length || articleIdBundles[articleIdBundles.length - 1].size >= 3000) {
+		if (!articleIdBundles.length || articleIdBundles[articleIdBundles.length - 1].size >= 1000) {
 			articleIdBundles.push({
 				size: baseLength,
 				articles: []
@@ -214,7 +214,7 @@ livefyre.getCommentCounts = function (articleIds, callback) {
 		}
 
 		if (results && results.length) {
-			callback(null, oCommentUtilities.merge(results)[0]);
+			callback(null, oCommentUtilities.merge.apply(null, results));
 		} else {
 			callback(null, {});
 		}
