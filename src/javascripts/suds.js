@@ -2,7 +2,6 @@ const cache = require('./cache.js');
 const utils = require('./utils.js');
 const envConfig = require('./config.js');
 const oCommentUtilities = require('o-comment-utilities');
-const async = require('async');
 
 /**
  * Livefyre related SUDS endpoints.
@@ -191,10 +190,10 @@ livefyre.getCommentCounts = function (articleIds, callback) {
 		articleIdBundles[articleIdBundles.length - 1].size += articleId.toString().length;
 	});
 
-	const getArticleFunctions = [];
+	const getArticleFunctions = {};
 
-	articleIdBundles.forEach(bundle => {
-		getArticleFunctions.push(function (done) {
+	articleIdBundles.forEach((bundle, index) => {
+		getArticleFunctions[index] = function (done) {
 			oCommentUtilities.jsonp(
 				{
 					url: url,
@@ -204,17 +203,22 @@ livefyre.getCommentCounts = function (articleIds, callback) {
 				},
 				done
 			);
-		});
+		};
 	});
 
-	async.parallel(getArticleFunctions, (err, results) => {
+	oCommentUtilities.functionSync.parallel(getArticleFunctions, (err, results) => {
 		if (err) {
 			callback(err);
 			return;
 		}
 
-		if (results && results.length) {
-			callback(null, oCommentUtilities.merge.apply(null, results));
+		if (results && Object.keys(results) && Object.keys(results).length) {
+			const resultArray = [];
+			Object.keys(results).forEach((key) => {
+				resultArray.push(results[key]);
+			});
+
+			callback(null, oCommentUtilities.merge.apply(null, resultArray));
 		} else {
 			callback(null, {});
 		}
