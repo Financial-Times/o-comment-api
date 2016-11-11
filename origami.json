@@ -1,6 +1,7 @@
 {
 	"description": "An abstraction of FT's commenting APIs, used by o-comments and o-chat",
 	"origamiType": "module",
+	"origamiCategory": "utilities",
 	"origamiVersion": 1,
 	"support": "https://jira.ft.com/secure/RapidBoard.jspa?rapidView=57&view=detail",
 	"supportStatus": "active",
