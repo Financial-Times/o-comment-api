@@ -148,7 +148,7 @@ function Stream (collectionId, config) {
 		let timeToWait = 0;
 		let aborted = false;
 
-		const lfStreamUrl = "//"+ envConfig.get().livefyre.networkName +".stream1.fyre.co/v3.0/collection/"+ collectionId +"/"+ lastEventId +"/";
+		const lfStreamUrl = "https://"+ envConfig.get().livefyre.networkName +".stream1.fyre.co/v3.0/collection/"+ collectionId +"/"+ lastEventId +"/";
 
 		const backupRestart = setTimeout(function () {
 			aborted = true;
