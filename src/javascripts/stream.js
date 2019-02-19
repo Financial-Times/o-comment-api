@@ -109,9 +109,9 @@ function Stream (collectionId, config) {
 					if (item.type === 0) {
 						if (item.vis >= 1) {
 							if (item.content.updatedBy || commentIds.indexOf(item.content.id) !== -1) {
-								handleUpdateComment(item, ((data.authors && item.content.authorId) ? data.authors[item.content.authorId] : null));
+								handleUpdateComment(item, data.authors && item.content.authorId ? data.authors[item.content.authorId] : null);
 							} else {
-								handleNewComment(item, ((data.authors && item.content.authorId) ? data.authors[item.content.authorId] : null));
+								handleNewComment(item, data.authors && item.content.authorId ? data.authors[item.content.authorId] : null);
 							}
 						} else if (item.vis === 0) {
 							handleDeleteComment(item);
@@ -179,9 +179,9 @@ function Stream (collectionId, config) {
 					}
 
 					connect();
-				}, (timeToWait < 0 ? 0 : timeToWait));
+				}, timeToWait < 0 ? 0 : timeToWait);
 			}
-			return;
+
 		};
 
 		try {
@@ -273,7 +273,7 @@ function Stream (collectionId, config) {
 	};
 
 	this.init = function () {
-		if (!initialized && !destroyed && (typeof lastEventId !== 'undefined') && (typeof collectionId !== 'undefined') && callbacks.length) {
+		if (!initialized && !destroyed && typeof lastEventId !== 'undefined' && typeof collectionId !== 'undefined' && callbacks.length) {
 			initialized = true;
 			connect();
 
