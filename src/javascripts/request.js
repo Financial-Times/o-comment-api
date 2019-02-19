@@ -119,7 +119,7 @@ function getXhrForUrl (requestUrl) {
 			return false;
 		}
 	} else {
-		if (window.XMLHttpRequest && ('file:' !== window.location.protocol || !window.ActiveXObject)) {
+		if (window.XMLHttpRequest && (window.location.protocol !== 'file:' || !window.ActiveXObject)) {
 			return new XMLHttpRequest();
 		} else {
 			try {

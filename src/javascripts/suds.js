@@ -30,11 +30,11 @@ const livefyre = {};
  */
 livefyre.getInitConfig = function (conf, callback) {
 	if (typeof callback !== 'function') {
-		throw "Callbacks not provided";
+		throw new Error ("Callbacks not provided");
 	}
 
 	if (!conf) {
-		throw "No configuration parameters provided";
+		throw new Error ("No configuration parameters provided");
 	}
 
 	if (!conf.hasOwnProperty('articleId')) {
@@ -62,56 +62,56 @@ livefyre.getInitConfig = function (conf, callback) {
 
 	// actually make the request to SUDS
 	const makeCall = function () {
-			const dataToBeSent = {
-				title: conf.title,
-				url: conf.url,
-				articleId: conf.articleId,
-				el: conf.elId
-			};
-
-			if (sessionId) {
-				dataToBeSent.sessionId = sessionId;
-			}
-
-			if (typeof conf.stream_type !== 'undefined') {
-				dataToBeSent.stream_type = conf.stream_type;
-			}
-			if (typeof conf.section !== 'undefined') {
-				dataToBeSent.section = conf.section;
-			}
-			if (typeof conf.tags !== 'undefined'){
-				dataToBeSent.tags = conf.tags;
-			}
-
-			// makes the actual call to the SUDS service
-			oCommentUtilities.jsonp(
-				{
-					url: envConfig.get().suds.baseUrl + envConfig.get().suds.endpoints.livefyre.init,
-					data: dataToBeSent
-				},
-				function(err, data) {
-					if (err) {
-						callback(err, null);
-						return;
-					}
-
-					if (data && data.init) {
-						if (data.init.unclassifiedArticle !== true && data.init.notAllowedToCreateCollection !== true && data.init.collectionMeta && cacheEnabled) {
-							cache.cacheInit(conf.articleId, data.init);
-							if (data.auth && data.auth.token) {
-								cache.cacheAuth(data.auth);
-							} else {
-								cache.removeAuth();
-							}
-						}
-
-						callback(null, data.init);
-					} else {
-						callback(new Error("No data received from SUDS."), null);
-					}
-				}
-			);
+		const dataToBeSent = {
+			title: conf.title,
+			url: conf.url,
+			articleId: conf.articleId,
+			el: conf.elId
 		};
+
+		if (sessionId) {
+			dataToBeSent.sessionId = sessionId;
+		}
+
+		if (typeof conf.stream_type !== 'undefined') {
+			dataToBeSent.stream_type = conf.stream_type;
+		}
+		if (typeof conf.section !== 'undefined') {
+			dataToBeSent.section = conf.section;
+		}
+		if (typeof conf.tags !== 'undefined'){
+			dataToBeSent.tags = conf.tags;
+		}
+
+		// makes the actual call to the SUDS service
+		oCommentUtilities.jsonp(
+			{
+				url: envConfig.get().suds.baseUrl + envConfig.get().suds.endpoints.livefyre.init,
+				data: dataToBeSent
+			},
+			function(err, data) {
+				if (err) {
+					callback(err, null);
+					return;
+				}
+
+				if (data && data.init) {
+					if (data.init.unclassifiedArticle !== true && data.init.notAllowedToCreateCollection !== true && data.init.collectionMeta && cacheEnabled) {
+						cache.cacheInit(conf.articleId, data.init);
+						if (data.auth && data.auth.token) {
+							cache.cacheAuth(data.auth);
+						} else {
+							cache.removeAuth();
+						}
+					}
+
+					callback(null, data.init);
+				} else {
+					callback(new Error("No data received from SUDS."), null);
+				}
+			}
+		);
+	};
 
 
 	if (!cacheEnabled) {
@@ -131,7 +131,7 @@ livefyre.getInitConfig = function (conf, callback) {
 
 livefyre.getCommentCount = function (articleId, callback) {
 	if (typeof callback !== 'function') {
-		throw "Callbacks not provided";
+		throw new Error ("Callbacks not provided");
 	}
 
 	if (!articleId) {
@@ -163,7 +163,7 @@ livefyre.getCommentCount = function (articleId, callback) {
 
 livefyre.getCommentCounts = function (articleIds, callback) {
 	if (typeof callback !== 'function') {
-		throw "Callbacks not provided";
+		throw new Error("Callbacks not provided");
 	}
 
 	if (!articleIds) {
@@ -332,34 +332,34 @@ user.updateUser = function (userSettings, callback) {
 		dataToBeSent.sessionId = sessionId;
 	}
 
-	if (!userSettings.hasOwnProperty('pseudonym') || (userSettings.hasOwnProperty('pseudonym') && userSettings.pseudonym)) {
+	if (!userSettings.hasOwnProperty('pseudonym') || userSettings.hasOwnProperty('pseudonym') && userSettings.pseudonym) {
 		oCommentUtilities.jsonp({
-				url: envConfig.get().suds.baseUrl + envConfig.get().suds.endpoints.user.updateUser,
-				data: dataToBeSent
-			},
-			function(err, data) {
-				if (err) {
-					callback(err, null);
-					return;
-				}
+			url: envConfig.get().suds.baseUrl + envConfig.get().suds.endpoints.user.updateUser,
+			data: dataToBeSent
+		},
+		function(err, data) {
+			if (err) {
+				callback(err, null);
+				return;
+			}
 
-				if (!data) {
-					callback(new Error("No data received."), null);
+			if (!data) {
+				callback(new Error("No data received."), null);
+			} else {
+				if (data.status === "ok") {
+					callback(null, data);
 				} else {
-					if (data.status === "ok") {
-						callback(null, data);
+					if (data.error) {
+						callback({
+							sudsError: true,
+							error: data.error
+						}, null);
 					} else {
-						if (data.error) {
-							callback({
-								sudsError: true,
-								error: data.error
-							}, null);
-						} else {
-							callback(new Error("An error occured."), null);
-						}
+						callback(new Error("An error occured."), null);
 					}
 				}
-			});
+			}
+		});
 	} else {
 		callback({
 			sudsError: true,
