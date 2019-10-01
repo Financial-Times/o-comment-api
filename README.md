@@ -1,5 +1,7 @@
 # o-comment-api [![Build Status](https://travis-ci.org/Financial-Times/o-comment-api.svg?branch=master)](https://travis-ci.org/Financial-Times/o-comment-api)
 
+📢 **The commenting platform for ft.com, the app, interactive graphics & alphaville is currently being replaced. Please speak to the [Comments team](https://github.com/orgs/Financial-Times/teams/comments) if you intend to start using this component or which to make any changes to it.**
+
 A JavaScript API that provides a simple abstraction of the FT's commenting APIs.
 
 This modules communicates with backend services:
