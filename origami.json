@@ -4,7 +4,7 @@
 	"origamiCategory": "utilities",
 	"origamiVersion": 1,
 	"support": "https://jira.ft.com/secure/RapidBoard.jspa?rapidView=57&view=detail",
-	"supportStatus": "active",
+	"supportStatus": "dead",
 	"ci": {},
 	"browserFeatures": {
 		"required": ["createevent", "customevents"]
