@@ -1,6 +1,6 @@
 # o-comment-api [![Build Status](https://travis-ci.org/Financial-Times/o-comment-api.svg?branch=master)](https://travis-ci.org/Financial-Times/o-comment-api)
 
-📢 **The commenting platform for ft.com, the app, interactive graphics & alphaville is currently being replaced. Please speak to the [Comments team](https://github.com/orgs/Financial-Times/teams/comments) if you intend to start using this component or which to make any changes to it.**
+**Deprecated: See [o-comments](https://github.com/Financial-Times/o-comments/).**
 
 A JavaScript API that provides a simple abstraction of the FT's commenting APIs.
 
@@ -24,7 +24,7 @@ This modules communicates with backend services:
 
 ## <div id="prereq"></div> Prerequisites
 
-* Your content must either be available in the Content API or available on a blogs URL in order for commenting to work. (See Moderation for why) 
+* Your content must either be available in the Content API or available on a blogs URL in order for commenting to work. (See Moderation for why)
 * You must be on an FT.com domain or sub-domain for authentication to work
 
 
@@ -683,7 +683,7 @@ This method disables logging of the module.
 This method sets the logging level. This could be a number from 0 to 4 (where 0 is debug, 4 is error), or a string from the available methods of 'console' (debug, log, info, warn, error).
 Default is 3 (warn).
 
-## <div id="browser"></div> Browser support 
+## <div id="browser"></div> Browser support
 Works in accordance with our [support policy](https://docs.google.com/a/ft.com/document/d/1dX92MPm9ZNY2jqFidWf_E6V4S6pLkydjcPmk5F989YI/edit)
 
 ## <div id="core"></div> Core/Enhanced Experience
